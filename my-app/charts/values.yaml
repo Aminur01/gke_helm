@@ -1,19 +1,19 @@
-replicaCount: 2
+replicaCount: 1
 
 image:
-  repository: asia-south1-docker.pkg.dev/techhack-380811/cwa/cwa
+  repository: asia-south1-docker.pkg.dev/techhack-451213/cwa/qp-assessment
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 service:
-  type: LoadBalancer
+  name: my-app
   port: 80
-  targetPort: 8080
 
 resources:
   requests:
-    cpu: "250m"   # 0.25 vCPU
-    memory: "512Mi" # 512 MiB
+    memory: "256Mi"
+    cpu: "250m"
   limits:
-    cpu: "500m"   # 0.5 vCPU
-    memory: "1Gi" # 1 GiB
+    memory: "512Mi"
+    cpu: "500m"
+
