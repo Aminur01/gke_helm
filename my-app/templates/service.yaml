@@ -7,6 +7,6 @@ spec:
     app: {{ .Release.Name }}  # Selects the pods with the matching label
   ports:
     - protocol: TCP
-      port: {{ .Values.service.port }}  # External port (exposed to the outside world)
-      targetPort: {{ .Values.service.targetPort }}  # Internal port the app listens on
-  type: {{ .Values.service.type }}  # LoadBalancer or ClusterIP, depending on your values.yaml
+      port: {{ .values.service.port }}  # External port (exposed to the outside world)
+      targetPort: {{ .values.service.targetPort }}  # Internal port the app listens on
+  type: {{ .values.service.type }}  # LoadBalancer or ClusterIP, depending on your values.yaml
