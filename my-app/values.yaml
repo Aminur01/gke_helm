@@ -6,8 +6,9 @@ image:
   pullPolicy: Always
 
 service:
-  name: my-app
-  port: 80
+  type: LoadBalancer      # Type of service (LoadBalancer to expose externally)
+  port: 80                # External port
+  targetPort: 8091        # Internal port your app is listening on
 
 resources:
   requests:
@@ -15,5 +16,4 @@ resources:
     cpu: "250m"
   limits:
     memory: "512Mi"
-    cpu: "500m"
-
+    cpu: "500m
