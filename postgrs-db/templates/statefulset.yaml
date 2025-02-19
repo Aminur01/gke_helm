@@ -13,23 +13,9 @@ spec:
       labels:
         app: postgres
     spec:
-      initContainers:
-        - name: init-db
-          image: postgres:15-alpine
-          command: ["/bin/sh", "-c", "psql -v ON_ERROR_STOP=1 -U $POSTGRES_USER -d postgres -f /docker-entrypoint-initdb.d/create-dbs.sh"]
-          env:
-            - name: PGPASSWORD
-              value: "postgrespass"
-            - name: POSTGRES_DB
-              value: "postgres"
-            - name: POSTGRES_USER
-              value: "postgres"
-          volumeMounts:
-            - name: init-script
-              mountPath: /docker-entrypoint-initdb.d
       containers:
         - name: postgres
-          image: postgres:15-alpine
+          image: postgres:15-alpine  # Lightweight version
           resources:
             requests:
               cpu: "250m"
@@ -50,6 +36,8 @@ spec:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
               subPath: postgres-data
+            - name: init-script
+              mountPath: /docker-entrypoint-initdb.d/
       volumes:
         - name: init-script
           configMap:
