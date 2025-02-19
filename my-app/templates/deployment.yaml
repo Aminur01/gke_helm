@@ -18,15 +18,15 @@ spec:
         - name: my-app
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"  # Docker image and tag
           command:
-          - /bin/sh  # Changed from /bin/bash to /bin/sh
-          - -c
-          - |
-            set -e
-            echo "Run startup command"
-            java -Dspring.config.location=file:/etc/prop/application.properties -jar /qp-assessment.jar
+            - "/bin/sh"
+            - "-c"
+            - |
+              set -e
+              echo "Starting application..."
+              java -jar /qp-assessment.jar
           imagePullPolicy: Always  # Image pull policy
           ports:
-            - containerPort: {{ .Values.service.port }}  # Port the container will expose
+            - containerPort: {{ .Values.service.targetPort }}  # Internal port the app listens on
           resources:
             requests:
               memory: "{{ .Values.resources.requests.memory }}"
@@ -34,10 +34,6 @@ spec:
             limits:
               memory: "{{ .Values.resources.limits.memory }}"
               cpu: "{{ .Values.resources.limits.cpu }}"   
-          volumeMounts:
-            - name: app-prop
-              mountPath: "/etc/prop/"
-      volumes:
-        - name: app-prop  # Fixed indentation and added space
-          configMap:
-            name: app-prop-cm
+          envFrom:
+            - configMapRef:
+                name: app-prop-cm  # Load environment variables from ConfigMap
