@@ -1,9 +1,20 @@
 replicaCount: 1
 
+googleCloud:
+  projectID: "techhack-451213"
+
+artifactRegistry:
+  repositoryName: "cwa"
+
+dockerImage:
+  name: "qp-assessment"
+  tag: "latest"
+  pullPolicy: "Always"
+
 image:
-  repository: asia-south1-docker.pkg.dev/techhack-451213/cwa/qp-assessment
-  tag: latest
-  pullPolicy: Always
+  repository: "asia-south1-docker.pkg.dev/{{ .Values.googleCloud.projectID }}/{{ .Values.artifactRegistry.repositoryName }}/{{ .Values.dockerImage.name }}"
+  tag: "{{ .Values.dockerImage.tag }}"
+  pullPolicy: "{{ .Values.dockerImage.pullPolicy }}"
 
 service:
   type: LoadBalancer      # Type of service (LoadBalancer to expose externally)
