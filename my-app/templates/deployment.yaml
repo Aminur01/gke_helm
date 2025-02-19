@@ -23,7 +23,7 @@ spec:
           - |
             set -e
             echo "Run startup command"
-            java -Dspring.config.location=file:/etc/prop/ -jar /qp-assessment.jar
+            java -Dspring.config.location=file:/etc/prop/application.properties -jar /qp-assessment.jar
           imagePullPolicy: Always  # Image pull policy
           ports:
             - containerPort: {{ .Values.service.port }}  # Port the container will expose
