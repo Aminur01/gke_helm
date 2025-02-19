@@ -36,6 +36,6 @@ spec:
               cpu: "{{ .Values.resources.limits.cpu }}" 
           envFrom:
             - configMapRef:
-              name: app-prop-cm
+                name: app-prop-cm
             - secretRef:
-              name: postgres-secret
+                name: postgres-secret
