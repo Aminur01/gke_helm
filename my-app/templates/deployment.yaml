@@ -18,7 +18,7 @@ spec:
         - name: my-app
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"  # Docker image and tag
           command:
-          - /bin/bash
+          - /bin/sh  # Changed from /bin/bash to /bin/sh
           - -c
           - |
             set -e
