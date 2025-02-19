@@ -17,7 +17,7 @@ spec:
       containers:
         - name: my-app
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"  # Docker image and tag
-          imagePullPolicy: {{ .Values.image.pullPolicy }}  # Image pull policy
+          imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.service.port }}  # Port the container will expose
           resources:
