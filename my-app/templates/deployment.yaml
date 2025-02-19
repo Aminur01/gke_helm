@@ -17,7 +17,14 @@ spec:
       containers:
         - name: my-app
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"  # Docker image and tag
-          imagePullPolicy: Always
+          command:
+          - /bin/bash
+          - -c
+          - |
+            set -e
+            echo "Run startup command"
+            java -Dspring.config.location=file:/etc/prop/ -jar /qp-assessment.jar
+          imagePullPolicy: Always  # Image pull policy
           ports:
             - containerPort: {{ .Values.service.port }}  # Port the container will expose
           resources:
@@ -26,4 +33,11 @@ spec:
               cpu: "{{ .Values.resources.requests.cpu }}"
             limits:
               memory: "{{ .Values.resources.limits.memory }}"
-              cpu: "{{ .Values.resources.limits.cpu }}"
+              cpu: "{{ .Values.resources.limits.cpu }}"   
+          volumeMounts:
+            - name: app-prop
+              mountPath: "/etc/prop/"
+      volumes:
+        -name: app-prop
+         configMap:
+           name: app-prop-cm
