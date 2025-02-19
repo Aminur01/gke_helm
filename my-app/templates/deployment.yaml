@@ -38,6 +38,6 @@ spec:
             - name: app-prop
               mountPath: "/etc/prop/"
       volumes:
-        -name: app-prop
-        configMap:
-          name: app-prop-cm
+        - name: app-prop  # Fixed indentation and added space
+          configMap:
+            name: app-prop-cm
