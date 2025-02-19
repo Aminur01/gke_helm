@@ -13,9 +13,23 @@ spec:
       labels:
         app: postgres
     spec:
+      initContainers:
+        - name: init-db
+          image: postgres:15-alpine  # Use lightweight PostgreSQL
+          command: ["/bin/sh", "-c", "chmod +x /docker-entrypoint-initdb.d/create-dbs.sh && /docker-entrypoint-initdb.d/create-dbs.sh"]
+          env:
+            - name: POSTGRES_DB
+              value: "postgres"  # Default DB where script runs
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgrespass"
+          volumeMounts:
+            - name: init-script
+              mountPath: /docker-entrypoint-initdb.d
       containers:
         - name: postgres
-          image: postgres:15  # You can specify a different version
+          image: postgres:15-alpine
           imagePullPolicy: Always
           ports:
             - containerPort: 5432
@@ -30,6 +44,11 @@ spec:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
               subPath: postgres-data
+      volumes:
+        - name: init-script
+          configMap:
+            name: create-dbs-configmap
+            defaultMode: 0777
   volumeClaimTemplates:
     - metadata:
         name: postgres-storage
@@ -37,4 +56,4 @@ spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 5Gi
+            storage: 1Gi
