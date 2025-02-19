@@ -33,7 +33,9 @@ spec:
               cpu: "{{ .Values.resources.requests.cpu }}"
             limits:
               memory: "{{ .Values.resources.limits.memory }}"
-              cpu: "{{ .Values.resources.limits.cpu }}"   
+              cpu: "{{ .Values.resources.limits.cpu }}" 
           envFrom:
             - configMapRef:
-                name: app-prop-cm  # Load environment variables from ConfigMap
+              name: app-prop-cm
+            - secretRef:
+              name: postgres-secret
