@@ -39,5 +39,5 @@ spec:
               mountPath: "/etc/prop/"
       volumes:
         -name: app-prop
-         configMap:
-           name: app-prop-cm
+        configMap:
+          name: app-prop-cm
